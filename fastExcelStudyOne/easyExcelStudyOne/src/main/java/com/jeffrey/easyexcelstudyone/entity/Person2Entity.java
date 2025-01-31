@@ -1,6 +1,7 @@
 package com.jeffrey.easyexcelstudyone.entity;
 
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.annotation.format.DateTimeFormat;
 import lombok.Data;
 
 import java.util.Date;
@@ -14,13 +15,17 @@ import java.util.Date;
  * @description
  **/
 @Data
-public class PersonEntity {
+public class Person2Entity {
+    @ExcelProperty(index = 0)
     private Long id;
 
+    @ExcelProperty(index = 1)
     private String name;
 
+    @ExcelProperty(value = "生日",format = "yyyy-MM-dd")
     private Date birthday;
 
+    @ExcelProperty(index = 3)
     private String address;
 
 }

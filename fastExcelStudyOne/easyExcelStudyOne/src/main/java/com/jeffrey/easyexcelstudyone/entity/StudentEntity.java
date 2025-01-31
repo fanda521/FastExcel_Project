@@ -14,9 +14,10 @@ import java.util.Date;
  * @description
  **/
 @Data
-public class PersonEntity {
+public class StudentEntity {
     private Long id;
 
+    @ExcelProperty(index = 2)
     private String name;
 
     private Date birthday;
