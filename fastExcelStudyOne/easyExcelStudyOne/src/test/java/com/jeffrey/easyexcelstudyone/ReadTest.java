@@ -5,11 +5,13 @@ import com.alibaba.excel.ExcelReader;
 import com.alibaba.excel.read.builder.ExcelReaderBuilder;
 import com.alibaba.excel.read.builder.ExcelReaderSheetBuilder;
 import com.alibaba.excel.read.metadata.ReadSheet;
+import com.jeffrey.easyexcelstudyone.entity.DataConvertEntity;
 import com.jeffrey.easyexcelstudyone.entity.Person2Entity;
 import com.jeffrey.easyexcelstudyone.entity.PersonEntity;
 import com.jeffrey.easyexcelstudyone.entity.Sheet2Entity;
 import com.jeffrey.easyexcelstudyone.entity.SheetEntity;
 import com.jeffrey.easyexcelstudyone.entity.StudentEntity;
+import com.jeffrey.easyexcelstudyone.listener.DataConvertListener;
 import com.jeffrey.easyexcelstudyone.listener.Person2Listener;
 import com.jeffrey.easyexcelstudyone.listener.PersonListener;
 import com.jeffrey.easyexcelstudyone.listener.Sheet2Listener;
@@ -28,6 +30,21 @@ import org.junit.jupiter.api.Test;
  **/
 public class ReadTest {
 
+
+    @Test
+    public void read005(){
+        /**
+         * 读取的数据接收的时候格式化
+         */
+        String fileName = getClass().getClassLoader().getResource("static/date_convert.xlsx").getFile();
+        ExcelReaderBuilder excelReaderBuilder = EasyExcel.read(fileName);
+        ReadSheet readSheet1 = excelReaderBuilder
+                .sheet(0)
+                .head(DataConvertEntity.class)
+                .registerReadListener(new DataConvertListener()).build();
+        excelReaderBuilder.build().read(readSheet1);
+
+    }
 
     @Test
     public void read004_3(){
