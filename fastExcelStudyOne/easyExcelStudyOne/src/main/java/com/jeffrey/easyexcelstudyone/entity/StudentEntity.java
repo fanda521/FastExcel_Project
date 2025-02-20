@@ -17,7 +17,7 @@ import java.util.Date;
 public class StudentEntity {
     private Long id;
 
-    @ExcelProperty(index = 2)
+    @ExcelProperty(index = 1)
     private String name;
 
     private Date birthday;

@@ -5,6 +5,7 @@ import com.alibaba.excel.ExcelReader;
 import com.alibaba.excel.read.builder.ExcelReaderBuilder;
 import com.alibaba.excel.read.builder.ExcelReaderSheetBuilder;
 import com.alibaba.excel.read.metadata.ReadSheet;
+import com.alibaba.fastjson.JSON;
 import com.jeffrey.easyexcelstudyone.entity.DataConvertEntity;
 import com.jeffrey.easyexcelstudyone.entity.Person2Entity;
 import com.jeffrey.easyexcelstudyone.entity.PersonEntity;
@@ -17,7 +18,12 @@ import com.jeffrey.easyexcelstudyone.listener.PersonListener;
 import com.jeffrey.easyexcelstudyone.listener.Sheet2Listener;
 import com.jeffrey.easyexcelstudyone.listener.SheetListener;
 import com.jeffrey.easyexcelstudyone.listener.StudentListener;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+
+import java.net.URL;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -28,7 +34,34 @@ import org.junit.jupiter.api.Test;
  * @week 星期日
  * @description
  **/
+@Slf4j
 public class ReadTest {
+
+
+
+    /**
+     * 同步的返回，不推荐使用，如果数据量大会把数据放到内存里面
+     */
+    @Test
+    public void synchronousRead() {
+
+        // 输入的Excel文件路径
+        URL systemResource = ClassLoader.getSystemResource("static/student_1.xlsx");
+        String inputFile = systemResource.getPath();
+        log.info("inputFile:{}", inputFile);
+
+        // 这里 需要指定读用哪个class去读，然后读取第一个sheet 同步读取会自动finish
+        List<StudentEntity> list = EasyExcel.read(inputFile).head(StudentEntity.class).sheet().doReadSync();
+        for (StudentEntity data : list) {
+            log.info("读取到数据:{}", JSON.toJSONString(data));
+        }
+        // 这里 也可以不指定class，返回一个list，然后读取第一个sheet 同步读取会自动finish
+        List<Map<Integer, String>> listMap = EasyExcel.read(inputFile).sheet().doReadSync();
+        for (Map<Integer, String> data : listMap) {
+            // 返回每条数据的键值对 表示所在的列 和所在列的值
+            log.info("读取到数据:{}", JSON.toJSONString(data));
+        }
+    }
 
 
     @Test
